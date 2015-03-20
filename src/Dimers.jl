@@ -1,16 +1,25 @@
 module Dimers
 
-export dimers, Wilson, LERW, GridGraph, rotate, flatten, midpoint, dimer_sample, draw_graph, dimer_height
+export dimers, 
+       Wilson, 
+       LERW, 
+       grid_graph, 
+       rotate, 
+       flatten, 
+       midpoint, 
+       dimer_sample, 
+       draw_graph, 
+       dimer_height
 
-import Graphs, Graphics2D
+import Graphs, 
+       Graphics2D
 
-import Base.getindex
+function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},
+                   startingvertex::Int64,
+                   roots::Array{Bool,1};
+                   maxiter::Integer=10^7)
 
-getindex{V}(S::Set{V},k::Integer) = collect(keys(S.dict))[k]
-
-function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},startingvertex::Int64,roots::Array{Bool,1})
     X = [startingvertex]
-    maxiter = 10^7
     cntr = 1
     while ~(roots[X[end]])
         neighbors = Γ.adjlist[X[end]]
@@ -30,9 +39,11 @@ function LERW{V,E}(Γ::Graphs.AbstractGraph{V,E},startingvertex::Int64,roots::Ar
 end
 
 function Wilson{V,E}(Γ::Graphs.AbstractGraph{V,E},roots::Array{Bool,1})
+
     if length(Graphs.connected_components(Γ)) > 1
         error("Graph not connected")
     end
+
     maxiter = length(Graphs.vertices(Γ))
     cntr = 1
     UST = Graphs.adjlist(typeof(Graphs.vertices(Γ)[1]))
@@ -69,7 +80,7 @@ flatten(e::((Int64,Int64),(Int64,Int64))) = vcat(map(x->vcat(x...),vcat(e...))..
 
 midpoint(point1::(Int64,Int64),point2::(Int64,Int64)) = (div(point1[1] + point2[1],2),div(point1[2] + point2[2],2))
 
-function GridGraph(n::Int64)
+function grid_graph(n::Int64)
 
     Γ = Graphs.adjlist((Int64,Int64),is_directed=false)
 
