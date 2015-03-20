@@ -218,7 +218,7 @@ end
 
 dimer_sample(n::Integer) = dimer_sample(n,n)
 
-function draw_graph(Γ)
+function draw_graph{V,E}(Γ::Graphs.AbstractGraph{V,E})
     
     all_points = Graphics2D.GraphicElement[]
     all_edges = Graphics2D.GraphicElement[]
@@ -253,9 +253,9 @@ function dimer_height{V,E}(dimer_graph::Graphs.AbstractGraph{V,E})
 
     down_edges = zeros(Bool,2m+1,2n+1)
 
-    for i=1:2m
-        for j=1:2n-1
-            if (i,j+1) in Graphs.out_neighbors((i,j),dimer_graph) || (i,j) in Graphs.out_neighbors((i,j+1),dimer_graph)
+    for i=1:2m-1
+        for j=1:2n
+            if (i,j) in Graphs.out_neighbors((i+1,j),dimer_graph) || (i+1,j) in Graphs.out_neighbors((i,j),dimer_graph)
                 down_edges[i,j] = true
             end        
         end
@@ -268,7 +268,7 @@ function dimer_height{V,E}(dimer_graph::Graphs.AbstractGraph{V,E})
     end
 
     for i=2:2n+1
-        h[i,1] = (-1)^(i+1)
+        h[i,1] = isodd(i) ? 0 : 1
         for j=2:2n+1
             if down_edges[i-1,j-1]
                 h[i,j] = h[i-1,j] + (-1)^(i+j)
