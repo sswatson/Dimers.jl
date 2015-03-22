@@ -279,7 +279,7 @@ function dimer_height{V,E}(dimer_graph::Graphs.AbstractGraph{V,E})
     end
 
     for i=2:2n+1
-        h[i,1] = isodd(i) ? 0 : 1
+        h[i,1] = isodd(i) ? 0 : -1
         for j=2:2n+1
             if down_edges[i-1,j-1]
                 h[i,j] = h[i-1,j] + (-1)^(i+j)
