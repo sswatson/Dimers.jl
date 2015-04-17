@@ -46,6 +46,7 @@ starting from the vertex whose index in `G.vertices` is `v0` stopped upon
 hitting one of the vertices `v` for which `roots[v]` is `true`. 
 
 ```julia
+import Graphs
 n = 100
 G = Graphs.adjlist((Int64,Int64),is_directed=false)
 
