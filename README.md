@@ -11,10 +11,27 @@ Wilson's algorithm on an arbitrary graph.
 showgraphics(draw_graph(dimer_sample(20)))
 ```
 
+![Dimer sample](https://github.com/sswatson/Dimers.jl/blob/master/images/dimersample.png)
+
 We can also compute the height function associated with the dimer sample:
 
 ```julia
 dimer_height(dimer_sample(20))
+```
+
+```julia
+11x11 Array{Int64,2}:
+  0   1   0   1   0  1   0   1   0   1   0
+ -1  -2  -1  -2  -1  2  -1  -2  -1  -2  -1
+  0  -3  -4  -3   0  1   0   1   0  -3   0
+ -1  -2  -1  -2  -1  2  -1  -2  -1  -2  -1
+  0  -3   0   1   0  1   0   1   0   1   0
+ -1  -2  -1   2  -1  2  -1  -2  -1   2  -1
+  0   1   0   1   0  1   0   1   0   1   0
+ -1  -2  -1   2  -1  2   3   2  -1  -2  -1
+  0   1   0   1   0  1   0   1   0   1   0
+ -1   2   3   2   3  2   3   2   3   2  -1
+  0   1   0   1   0  1   0   1   0   1   0
 ```
 
 `Wilson` takes a graph as its first argument and an array of `true`/`false`
@@ -23,6 +40,8 @@ values specifying the roots.
 ```julia
 showgraphics(draw_graph(Wilson(G,[[true];[false for i=1:length(G.vertices)-1]])))
 ```
+
+![UST sample](https://github.com/sswatson/Dimers.jl/blob/master/images/USTsample.png)
 
 `LERW(G,v0,roots)` samples a loop-erased random walk on the graph `G`
 starting from the vertex whose index in `G.vertices` is `v0` stopped upon
@@ -50,3 +69,5 @@ end
 
 showgraphics(draw_graph(G))
 ```
+
+![Loop-erased random walk sample](https://github.com/sswatson/Dimers.jl/blob/master/images/lerwsample.png)
