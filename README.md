@@ -1,7 +1,5 @@
 # Dimers
 
-[![Build Status](https://travis-ci.org/sswatson/Dimers.jl.svg?branch=master)](https://travis-ci.org/sswatson/Dimers.jl)
-
 `Dimers` is a package for simulating the
 [dimer model](http://en.wikipedia.org/wiki/Domino_tiling) on a 2D
 rectangular grid. It also provides support for loop erased random walks and
@@ -19,7 +17,7 @@ We can also compute the height function associated with the dimer sample:
 dimer_height(dimer_sample(20))
 ```
 
-```julia
+```
 11x11 Array{Int64,2}:
   0   1   0   1   0  1   0   1   0   1   0
  -1  -2  -1  -2  -1  2  -1  -2  -1  -2  -1
@@ -71,3 +69,5 @@ showgraphics(draw_graph(G))
 ```
 
 ![Loop-erased random walk sample](https://github.com/sswatson/Dimers.jl/blob/master/images/lerwsample.png)
+
+[![Build Status](https://travis-ci.org/sswatson/Dimers.jl.svg?branch=master)](https://travis-ci.org/sswatson/Dimers.jl)
