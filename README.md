@@ -2,8 +2,10 @@
 
 `Dimers` is a package for simulating the
 [dimer model](http://en.wikipedia.org/wiki/Domino_tiling) on a 2D
-rectangular grid. It also provides support for loop erased random walks and
-Wilson's algorithm on an arbitrary graph.
+rectangular grid, using
+[an algorithm of Kenyon, Propp, and Wilson](http://arxiv.org/pdf/math/9903025v2.pdf). `Dimers`
+also provides support for loop erased random walks and Wilson's algorithm
+on an arbitrary graph.
 
 ```julia
 showgraphics(draw_graph(dimer_sample(20)))
