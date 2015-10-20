@@ -8,7 +8,7 @@ also provides support for loop erased random walks and Wilson's algorithm
 on an arbitrary graph.
 
 ```julia
-showgraphics(draw_graph(dimer_sample(20)))
+showgraphics(drawgraph(dimersample(20)))
 ```
 
 ![Dimer sample](https://github.com/sswatson/Dimers.jl/blob/master/images/dimersample.png)
@@ -16,7 +16,7 @@ showgraphics(draw_graph(dimer_sample(20)))
 We can also compute the height function associated with the dimer sample:
 
 ```julia
-dimer_height(dimer_sample(20))
+dimerheight(dimersample(20))
 ```
 
 ```
@@ -38,7 +38,7 @@ dimer_height(dimer_sample(20))
 values specifying the roots. 
 
 ```julia
-showgraphics(draw_graph(Wilson(G,[[true];[false for i=1:length(G.vertices)-1]])))
+showgraphics(drawgraph(Wilson(G,[[true];[false for i=1:length(G.vertices)-1]])))
 ```
 
 ![UST sample](https://github.com/sswatson/Dimers.jl/blob/master/images/USTsample.png)
@@ -63,12 +63,12 @@ G.vertices];
 
 v0 = find(x->x==(div(n,2),div(n,2)),G.vertices)[1]
 
-lerw = LERW(grid_graph(n),v0,roots)
+lerw = LERW(gridgraph(n),v0,roots)
 for i=1:length(lerw)-1
     add_edge!(G,lerw[i],lerw[i+1])
 end
 
-showgraphics(draw_graph(G))
+showgraphics(drawgraph(G))
 ```
 
 ![Loop-erased random walk sample](https://github.com/sswatson/Dimers.jl/blob/master/images/lerwsample.png)

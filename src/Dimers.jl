@@ -3,13 +3,13 @@ module Dimers
 export dimers, 
        Wilson, 
        LERW, 
-       grid_graph, 
+       gridgraph, 
        rotate, 
        flatten, 
        midpoint, 
-       dimer_sample, 
-       draw_graph, 
-       dimer_height
+       dimersample, 
+       drawgraph, 
+       dimerheight
 
 import Graphs, 
        Graphics2D
@@ -80,7 +80,7 @@ flatten(e::Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}) = vcat(map(x->vcat(x...
 
 midpoint(point1::Tuple{Int64,Int64},point2::Tuple{Int64,Int64}) = (div(point1[1] + point2[1],2),div(point1[2] + point2[2],2))
 
-function grid_graph(n::Int64)
+function gridgraph(n::Int64)
 
     Γ = Graphs.adjlist(Tuple{Int64,Int64},is_directed=false)
 
@@ -106,7 +106,7 @@ function grid_graph(n::Int64)
     return Γ 
 end
 
-function dimer_sample(m::Int64,n::Int64)
+function dimersample(m::Int64,n::Int64)
     
     function add_edge_and_continue(vertex::Tuple{Int64,Int64},prev_vertex::Tuple{Int64,Int64})
         Graphs.add_edge!(dualtree_ordered,prev_vertex,vertex)
@@ -227,9 +227,9 @@ function dimer_sample(m::Int64,n::Int64)
 
 end
 
-dimer_sample(n::Integer) = dimer_sample(n,n)
+dimersample(n::Integer) = dimersample(n,n)
 
-function draw_graph{V,E}(Γ::Graphs.AbstractGraph{V,E};
+function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
                          pointsize=0.002,
                          linesize=1.0)
     
@@ -246,12 +246,12 @@ function draw_graph{V,E}(Γ::Graphs.AbstractGraph{V,E};
     return [all_points; all_edges]
 end
 
-function dimer_height{V,E}(dimer_graph::Graphs.AbstractGraph{V,E})
+function dimerheight{V,E}(dimergraph::Graphs.AbstractGraph{V,E})
     
     all_edges = Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}[]
     
-    m = div(maximum(map(x->x[1],Graphs.vertices(dimer_graph))),2)
-    n = div(maximum(map(x->x[2],Graphs.vertices(dimer_graph))),2)
+    m = div(maximum(map(x->x[1],Graphs.vertices(dimergraph))),2)
+    n = div(maximum(map(x->x[2],Graphs.vertices(dimergraph))),2)
 
     for i=1:2m
         for j=1:2n
@@ -268,7 +268,7 @@ function dimer_height{V,E}(dimer_graph::Graphs.AbstractGraph{V,E})
 
     for i=1:2m-1
         for j=1:2n
-            if (i,j) in Graphs.out_neighbors((i+1,j),dimer_graph) || (i+1,j) in Graphs.out_neighbors((i,j),dimer_graph)
+            if (i,j) in Graphs.out_neighbors((i+1,j),dimergraph) || (i+1,j) in Graphs.out_neighbors((i,j),dimergraph)
                 down_edges[i,j] = true
             end        
         end
