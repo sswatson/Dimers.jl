@@ -70,19 +70,19 @@ function Wilson{V,E}(Γ::Graphs.AbstractGraph{V,E},roots::Array{Bool,1})
     return UST
 end
 
-rotate(segment::((Int64,Int64),(Int64,Int64))) = 
+rotate(segment::Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}) = 
 (div(segment[1][1] + segment[2][1] - segment[1][2] + segment[2][2],2), 
 div(segment[1][1] - segment[2][1] + segment[1][2] + segment[2][2],2)),
 (div(segment[1][1] + segment[2][1] + segment[1][2] - segment[2][2],2), 
 div(-segment[1][1] + segment[2][1] + segment[1][2] + segment[2][2],2))
 
-flatten(e::((Int64,Int64),(Int64,Int64))) = vcat(map(x->vcat(x...),vcat(e...))...)
+flatten(e::Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}) = vcat(map(x->vcat(x...),vcat(e...))...)
 
-midpoint(point1::(Int64,Int64),point2::(Int64,Int64)) = (div(point1[1] + point2[1],2),div(point1[2] + point2[2],2))
+midpoint(point1::Tuple{Int64,Int64},point2::Tuple{Int64,Int64}) = (div(point1[1] + point2[1],2),div(point1[2] + point2[2],2))
 
 function grid_graph(n::Int64)
 
-    Γ = Graphs.adjlist((Int64,Int64),is_directed=false)
+    Γ = Graphs.adjlist(Tuple{Int64,Int64},is_directed=false)
 
     for i=1:n
         for j=1:n
@@ -90,7 +90,7 @@ function grid_graph(n::Int64)
         end
     end
 
-    gridedges = ((Int64,Int64),(Int64,Int64))[]
+    gridedges = Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}[]
 
     for i=1:n
         for j=1:n
@@ -108,7 +108,7 @@ end
 
 function dimer_sample(m::Int64,n::Int64)
     
-    function add_edge_and_continue(vertex::(Int64,Int64),prev_vertex::(Int64,Int64))
+    function add_edge_and_continue(vertex::Tuple{Int64,Int64},prev_vertex::Tuple{Int64,Int64})
         Graphs.add_edge!(dualtree_ordered,prev_vertex,vertex)
         if (vertex[1]+2,vertex[2]) != prev_vertex && (vertex[1]+2,vertex[2]) in Graphs.out_neighbors(vertex,dualtree)
             add_edge_and_continue((vertex[1]+2,vertex[2]),vertex)
@@ -124,7 +124,7 @@ function dimer_sample(m::Int64,n::Int64)
         end
     end
 
-    Γ = Graphs.adjlist((Int64,Int64),is_directed=false)
+    Γ = Graphs.adjlist(Tuple{Int64,Int64},is_directed=false)
 
     for i=1:m+1
         for j=1:n+1
@@ -134,7 +134,7 @@ function dimer_sample(m::Int64,n::Int64)
         end
     end
 
-    primaledges = ((Int64,Int64),(Int64,Int64))[]
+    primaledges = Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}[]
 
     for i=1:m
         for j=1:n
@@ -147,7 +147,7 @@ function dimer_sample(m::Int64,n::Int64)
         Graphs.add_edge!(Γ,e...) 
     end
 
-    dualtree = Graphs.adjlist((Int64,Int64),is_directed=false)
+    dualtree = Graphs.adjlist(Tuple{Int64,Int64},is_directed=false)
 
     for i=0:m
         for j=0:n
@@ -179,7 +179,7 @@ function dimer_sample(m::Int64,n::Int64)
         end
     end
 
-    dualtree_ordered = Graphs.inclist((Int64,Int64),is_directed=true)
+    dualtree_ordered = Graphs.inclist(Tuple{Int64,Int64},is_directed=true)
 
     for v in Graphs.vertices(dualtree)
         Graphs.add_vertex!(dualtree_ordered,v) 
@@ -195,8 +195,8 @@ function dimer_sample(m::Int64,n::Int64)
     end
 
     dimergraph = Graphs.adjlist(typeof(Graphs.vertices(Γ)[1]))
-    dimer_vertices = (Int64,Int64)[]
-    dimer_edges = ((Int64,Int64),(Int64,Int64))[]
+    dimer_vertices = Tuple{Int64,Int64}[]
+    dimer_edges = Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}[]
 
     for i=1:2m
         for j=1:2n
@@ -229,15 +229,17 @@ end
 
 dimer_sample(n::Integer) = dimer_sample(n,n)
 
-function draw_graph{V,E}(Γ::Graphs.AbstractGraph{V,E};pointsize=0.002,linewidth=1.0)
+function draw_graph{V,E}(Γ::Graphs.AbstractGraph{V,E};
+                         pointsize=0.002,
+                         linesize=1.0)
     
     all_points = Graphics2D.GraphicElement[]
     all_edges = Graphics2D.GraphicElement[]
     
     for v in Graphs.vertices(Γ)
-        push!(all_points,Graphics2D.Point(v...;rs=pointsize))
+        push!(all_points,Graphics2D.Point(v...;pointsize=pointsize))
         for w in Graphs.out_neighbors(v,Γ)
-            push!(all_edges,Graphics2D.Line([v[1] v[2]; w[1] w[2]];rs=linewidth))
+            push!(all_edges,Graphics2D.Line([v[1] v[2]; w[1] w[2]];linesize=linesize))
         end
     end
     
@@ -246,7 +248,7 @@ end
 
 function dimer_height{V,E}(dimer_graph::Graphs.AbstractGraph{V,E})
     
-    all_edges = ((Int64,Int64),(Int64,Int64))[]
+    all_edges = Tuple{Tuple{Int64,Int64},Tuple{Int64,Int64}}[]
     
     m = div(maximum(map(x->x[1],Graphs.vertices(dimer_graph))),2)
     n = div(maximum(map(x->x[2],Graphs.vertices(dimer_graph))),2)
