@@ -231,7 +231,7 @@ dimersample(n::Integer) = dimersample(n,n)
 
 function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
                          pointsize=0.002,
-                         linesize=1.0)
+                         linewidth=1.0)
     
     all_points = Graphics2D.GraphicElement[]
     all_edges = Graphics2D.GraphicElement[]
@@ -239,7 +239,7 @@ function drawgraph{V,E}(Γ::Graphs.AbstractGraph{V,E};
     for v in Graphs.vertices(Γ)
         push!(all_points,Graphics2D.Point(v...;pointsize=pointsize))
         for w in Graphs.out_neighbors(v,Γ)
-            push!(all_edges,Graphics2D.Line([v[1] v[2]; w[1] w[2]];linesize=linesize))
+            push!(all_edges,Graphics2D.Line([v[1] v[2]; w[1] w[2]];linewidth=linewidth))
         end
     end
     
