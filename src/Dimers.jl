@@ -1,3 +1,5 @@
+__precompile__(true)
+
 module Dimers
 
 export dimers, 
